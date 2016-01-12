@@ -13,7 +13,7 @@ library(rgdal)
 library(raster)
 library(downloader)
 # Load functions.
-# ... source('R/calcNDVI.R')
+# ... source(')
 
 ## configure working environment ----------------------
 getwd()
@@ -30,17 +30,24 @@ download(url = 'http://www.mapcruzin.com/download-shapefile/netherlands-places-s
 # http://www.mapcruzin.com/download-shapefile/netherlands-places-shape.zip
 # http://www.mapcruzin.com/download-shapefile/netherlands-railways-shape.zip
 
-## [ stopped here ] ## 
-
-
 
 # loading in shapefiles
-railways <- ("data/netherlands-railways-shape/railways.shp")
+
 vector = file.path("data/netherlands-places-shape","places.shp")
 places <- readOGR(vector, layer = ogrListLayers(vector)) ## to to read out the shp into spatial object. 
+str(places)
+head(places)
 
-ogrListLayers
+railways_vector <- ("data/netherlands-railways-shape/railways.shp")
+railways <- readOGR(railways_vector, layer = ogrListLayers(railways_vector))
 
+#select industrial fromn types
+industr <- railways[railways$type %in% 'industrial',]
+
+# buffer around railways
+library(rgeos)
+
+buffer <- industr
 
 # NDVI calculation per year.
 NDVI2014 <- overlay(L8proc[[1]], L8proc[[2]], fun=calcNDVI)
