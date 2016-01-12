@@ -23,7 +23,7 @@ setwd("D:/workspace/geoscripting/lesson6")
 
 
 # Download data from source ------------
-# manually or automatically
+# manually
 download(url = 'http://www.mapcruzin.com/download-shapefile/netherlands-places-shape.zip',
           "data/netherlands-places-shape.zip",
           quiet = T, mode = "wget")
@@ -51,9 +51,8 @@ railwaysdf <- railwaysRD[railwaysRD$type == "industrial",]
 DF <- list("railways" = railwaysdf, "places" = placesRD)
 
 
-
 # making a buffer around railways 1000m ----------------------------
-railwaysBuffer <- gBuffer(DF$railways, width = 1000,byid=TRUE) ## no need to select [1,] of DF
+railwaysBuffer <- gBuffer(DF$railways, width = 1000,byid=TRUE)
 
 
 #  place that intersects with the buffer
@@ -64,7 +63,7 @@ city <- DF$places@data[i]
 placeName <- city[2]
 placePopulation <- city[4]
 intersectObjects <- c(intersectPlaces, placeName, placePopulation)
-#  return(intersectObjects)
+
 
 ## Create plot  -------------------------------------------------
 visualization <- function(railwaysBuffer, DF, intersectObjects) { 
@@ -76,4 +75,7 @@ visualization <- function(railwaysBuffer, DF, intersectObjects) {
   scalebar(d = 1000, label = "1000 kilometers", lwd = 1) 
   legend("topright", legend = intersectObjects[2], bty = "n", title = "City Name")
 }
+
+## Answer questions -----------------------------------------------------------
+## The city is Utrecht and it's population is 10000
 
