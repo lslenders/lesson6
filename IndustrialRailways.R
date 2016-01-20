@@ -7,51 +7,51 @@
 #--------------------------------------------------
 
 
-## Load source packages and functions.-------------------
-# Load packages.
+# I Preprocessing -------------------
+## Load packages
 library(rgdal)
 library(raster)
 library(downloader)
 library(rgeos)
-# Load functions.
-# ... source(')
 
-## configure working environment ----------------------
+## configure working environment
 getwd()
-# set working directory to you own specifications!!
-setwd("D:/workspace/geoscripting/lesson6")
+setwd("D:/workspace/geoscripting/lesson6") # set working directory to you own specifications!!
 
 
-# Download data from source ------------
-# manually
+# Download data from source 
 download(url = 'http://www.mapcruzin.com/download-shapefile/netherlands-places-shape.zip',
           "data/netherlands-places-shape.zip",
           quiet = T, mode = "wget")
+download(url = 'http://www.mapcruzin.com/download-shapefile/netherlands-railways-shape.zip',
+         "data/netherlands-railways-shape.zip",
+         quiet = T, mode = "wget")
 
+# manually
 # http://www.mapcruzin.com/download-shapefile/netherlands-places-shape.zip
 # http://www.mapcruzin.com/download-shapefile/netherlands-railways-shape.zip
 
 
-# loading in shapefiles
-
+## load in shapefiles
 vector = file.path("data/netherlands-places-shape","places.shp")
 places <- readOGR(vector, layer = ogrListLayers(vector)) ## to to read out the shp into spatial object. 
 
 railways_vector <- ("data/netherlands-railways-shape/railways.shp")
 railways <- readOGR(railways_vector, layer = ogrListLayers(railways_vector))
 
-# transform to coordinateReference Syste, 
+## transform to coordinateReference Syste, 
 prj_string_RD <- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.2369,50.0087,465.658,-0.406857330322398,0.350732676542563,-1.8703473836068,4.0812 +units=m +no_defs")
 railwaysRD <- spTransform(railways, prj_string_RD) 
 placesRD <- spTransform(places, prj_string_RD)
 
-#select industrial fromn types
+## select industrial from types
 railwaysdf <- railwaysRD[railwaysRD$type == "industrial",]
+
 # combine places and selected railways in DF
 DF <- list("railways" = railwaysdf, "places" = placesRD)
 
 
-# making a buffer around railways 1000m ----------------------------
+# 2 making a buffer around railways 1000m ----------------------------
 railwaysBuffer <- gBuffer(DF$railways, width = 1000,byid=TRUE)
 
 

@@ -40,7 +40,75 @@ class(mypoints)
 str(mypoints)
 
 # create and display some attribute data and store in a data frame
-mydata <- data.frame(cbind(id = c(1,2), 
+mydata <- d
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ata.frame(cbind(id = c(1,2), 
                            Name = c("my first point", 
                                     "my second point")))
 
